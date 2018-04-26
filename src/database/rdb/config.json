@@ -1,0 +1,18 @@
+{
+  "dev": {
+    "username": "root",
+    "password": "0000",
+    "database": "bclim_dev",
+    "host": "localhost",
+    "port": "3307",
+    "dialect": "mysql"
+  },
+  "prod": {
+    "username": "root",
+    "password": "0000",
+    "database": "bclim_prod",
+    "host": "localhost",
+    "port": "3306",
+    "dialect": "mysql" 
+  }
+}
