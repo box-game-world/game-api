@@ -14,6 +14,7 @@ export default abstract class AbsModel {
   constructor( sequlize:Sequelize ){
     this._sequlize = sequlize; 
     this._beforeDefine();
+    
     this._model = this._sequlize.define(
       this._getModelName(),
       this._getSchema()
@@ -22,11 +23,11 @@ export default abstract class AbsModel {
 
     ( async ()=>{
       await this._model.sync();
-      this._afterSync();
+      this._afterSync();  
     } )();
   }
 
-  protected _beforeDefine():void{}
-  protected _afterDefine():void{}
-  protected _afterSync():void{}
+  protected _beforeDefine():any|void{}
+  protected _afterDefine():any|void{}
+  protected _afterSync():void|void{}
 }

@@ -1,6 +1,7 @@
 import Sequelize from 'sequelize'; 
 import AbsModel from './abs-model';
 import UsersModel from './models/users';
+import GamesModel from './models/games';
 
 const creationSymbol = Symbol();
 
@@ -59,7 +60,8 @@ export default class RDBManager{
 
   private _createModels():void{
     this._modelMap = new Map([
-      [ 'users', new UsersModel( this._sequelize ) ]
+      [ 'users', new UsersModel( this._sequelize ) as AbsModel],
+      [ 'games', new GamesModel( this._sequelize ) as AbsModel ]
     ]);
   }
 
