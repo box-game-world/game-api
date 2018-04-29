@@ -17,7 +17,7 @@ export default {
     const user = await model.getUserByEmail( email );
     
     if( !user ){
-      res.status( 404 ).send( { message:`등록되지 않은 이메일입니다.` });
+      res.status( 401 ).send( { message:`등록되지 않은 이메일입니다.` });
       return;  
     }
 
@@ -25,7 +25,7 @@ export default {
     const registedPassword:string = result.password;
     const registedSalt:string = result.salt;
     if( registedPassword !== Users.generatePassword( password, registedSalt ) ){
-      res.status( 404 ).send( { message:'비밀번호를 확인해주세요.' });
+      res.status( 401 ).send( { message:'비밀번호를 확인해주세요.' });
       return;  
     }
 

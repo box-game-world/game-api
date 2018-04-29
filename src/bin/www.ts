@@ -13,5 +13,5 @@ app.use(bodyParser.urlencoded({extended: true}));
 RDBManager.getInstance().init();  
 APIFacede.init( app );
 
-app.listen( 5000 , ()=>console.log( '포트:5000 연결 성공' ) );
+app.listen( 7001 , ()=>console.log( '포트:7001 연결 성공' ) );
 
