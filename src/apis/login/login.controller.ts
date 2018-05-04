@@ -2,7 +2,10 @@
 import express from 'express'
 import Users from '../../database/rdb/models/users';
 import RDBManager from '../../database/rdb/rdb-manager';
-import { randomBytes } from 'crypto';
+import * as jwt from 'jsonwebtoken'
+import redisClient from '../../database/redis/redis';
+
+
 
 const getModel = ():Users=>RDBManager.getInstance().getModel( 'users' ) as Users;
 
@@ -28,8 +31,9 @@ export default {
       res.status( 401 ).send( { message:'비밀번호를 확인해주세요.' });
       return;  
     }
-
-    res.status( 200 ).send( { message:`Hello`, token:randomBytes(64).toString( 'hex' ) })
+    const token = await jwt.sign( { email:result.email, nickname:result.nickname}, 'test_scret_key' );
+    redisClient.hset( 'box-game-token-hash', token, result.email );
+    res.status( 200 ).send( { message:`Hello ${result.name}`, token:token })
   },
 
   async logout( req:express.Request, res:express.Response ):Promise<any>{

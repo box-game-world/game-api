@@ -12,9 +12,13 @@
   "license": "ISC",
   "dependencies": {
     "@types/express": "^4.11.1",
+    "@types/express-session": "^1.15.8",
+    "@types/jsonwebtoken": "^7.2.7",
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
+    "express-session": "^1.15.6",
     "ioredis": "^3.2.2",
+    "jsonwebtoken": "^8.2.1",
     "mysql2": "^1.5.3",
     "npm-run-all": "^4.1.2"
   },
