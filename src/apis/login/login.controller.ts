@@ -32,26 +32,16 @@ export default {
       return;  
     }
     const token = await jwt.sign( { email:result.email, nickname:result.nickname}, 'test_scret_key' );
-    redisClient.hset( 'box-game-token-hash', token, result.email );
+    
+    redisClient.hset( 'box-game-token-hash', token, JSON.stringify( { email:result.email, nickname:result.nickname } ) );
     res.status( 200 ).send( { message:`Hello ${result.name}`, token:token })
   },
 
   async logout( req:express.Request, res:express.Response ):Promise<any>{
-    const model:Users = getModel();
-    const body = req.body;
-    const email:string = body.email;
-    const nickname:string = body.nickname;
-
-    if( !await model.hasUser( email ) ){
-      res.status( 400 ).send( { message:`이메일 정보가 유효하지 않습니다. 이메일 정보를 확인해주세요.` })
-      return;
-    }
-
-    if( await model.hasNickname( nickname ) ){
-      res.status( 400 ).send( { message:`이미 등록된 닉네임 입니다.` })
-      return;
-    }
-    await model.updateUserNickname( { email, nickname } );
-    res.status( 200 ).send( { message:`Hello ${ nickname }` })
+    const token:string  = req.headers[ 'bgw-access-token' ] as string;
+    const user:string = await redisClient.hget( 'box-game-token-hash',  token );
+    console.log( user );
+    await redisClient.hdel( 'box-game-token-hash', token );
+    res.status( 200 ).send( { message:`Bye ${ JSON.parse( user ).nickname }` })
   }
 }
