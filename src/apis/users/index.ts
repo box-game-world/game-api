@@ -7,5 +7,7 @@ router.post( '/', controller.createUser );
 router.put( '/', controller.updateUserNickname );
 router.delete( '/', controller.deleteUser );
 
+router.get( '/:token', controller.getUserByToken );
+
 
 export default router;

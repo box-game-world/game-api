@@ -2,6 +2,7 @@
 import express from 'express'
 import Users from '../../database/rdb/models/users';
 import RDBManager from '../../database/rdb/rdb-manager';
+import redisClient from '../../database/redis/redis';
 
 const getModel = ():Users=>RDBManager.getInstance().getModel( 'users' ) as Users;
 
@@ -57,5 +58,13 @@ export default {
 
     await model.updateUserStatus( { email, status:'disabled' } );
     res.status( 200 ).send( { message:'OK' })
+  },
+
+  async getUserByToken( req:express.Request, res:express.Response ):Promise<any>{
+    const token:string = req.params.token;
+    const user:string = await redisClient.hget( 'box-game-token-hash',  token );
+    res.status( 200 ).send( JSON.parse( user ) );
   }
+
+  
 }
